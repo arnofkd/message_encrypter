@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/crypto-js/crypto-js.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group form-group-custom">
+            <h3 class="text-center">Input</h3>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                        <input type="radio" name="options" id="encrypt" autocomplete="off" checked> Encrypt
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="options" id="decrypt" autocomplete="off"> Decrypt
+                    </label>
+                </div>
+            </div>
+            <textarea class="form-control mt-3" id="inputBox" rows="16"></textarea>
+            <button class="btn btn-primary d-block mt-3" id="submit-button">Submit</button>
+        </div>
+        <div class="output-group border p-3">
+            <h5 class="text-center">Output</h5>
+            <p class="text-center" id="output-header"></p>
+            <hr>
+            <pre id="outputBox"></pre>
+            <button class="copy-btn" id="copy-button" style="display: none;">Copy</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
