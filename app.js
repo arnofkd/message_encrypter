@@ -6,6 +6,7 @@ const encryptRadio = document.getElementById('encrypt');
 const decryptRadio = document.getElementById('decrypt');
 const submitButton = document.getElementById('submit-button');
 const copyBtn = document.getElementById('copy-button');
+const clipboard = new ClipboardJS('#copy-button');
 
 // Encryption function
 function encryptMessage() {
@@ -58,9 +59,14 @@ function toggleCopyButton() {
 }
 
 // Copy button function on click
-copyBtn.addEventListener('click', function () {
-    navigator.clipboard.writeText(outputBox.textContent);
+clipboard.on('success', function (e) {
+    e.clearSelection();
     copyBtn.textContent = "Copied!";
+});
+
+clipboard.on('error', function (e) {
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
 });
 
 // Add event listeners to the radio buttons
