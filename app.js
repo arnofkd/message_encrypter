@@ -1,5 +1,5 @@
-// Use environment variable or other secure alternative as key
-const secret_key = 'Placholder key';
+//config
+backendPort = ':8000'
 
 // Get references to the radio buttons and submit button
 const encryptRadio = document.getElementById('encrypt');
@@ -15,14 +15,21 @@ function encryptMessage() {
         alert("Please enter some text in the input box");
         return;
     }
-    let encryptedText = CryptoJS.AES.encrypt(inputText, secret_key).toString();
-    document.getElementById("outputBox").innerHTML = `***Encryption Start***\n\n${encryptedText}\n\n***Encryption End***`
-    document.getElementById("output-header").innerHTML = "Encrypted Text";
-    toggleCopyButton();
-    copyBtn.textContent = "Copy"
+
+    // Send a POST request to the backend
+    axios.post('http://' + window.location.hostname + backendPort + '/encrypt', { inputText: inputText })
+        .then(response => {
+            let encryptedText = response.data;
+            document.getElementById("outputBox").innerHTML = `***Encryption Start***\n\n${encryptedText}\n\n***Encryption End***`;
+            document.getElementById("output-header").innerHTML = "Encrypted Text";
+            toggleCopyButton();
+            copyBtn.textContent = "Copy";
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
-// Decryption function
 function decryptMessage() {
     let inputText = document.getElementById("inputBox").value;
     let encryptedText = "";
@@ -37,16 +44,23 @@ function decryptMessage() {
         encryptedText = inputText;
     }
 
-    let decryptedText = CryptoJS.AES.decrypt(encryptedText, secret_key).toString(CryptoJS.enc.Utf8);
-    if (!decryptedText) {
-        document.getElementById("outputBox").innerHTML = "Decryption failed. Please check input or key and try again.";
-        return
-    } else {
-        document.getElementById("outputBox").innerHTML = decryptedText;
-        document.getElementById("output-header").innerHTML = "Decrypted Text";
-    }
-    toggleCopyButton();
-    copyBtn.textContent = "Copy"
+    // Send a POST request to the backend
+    axios.post('http://' + window.location.hostname + backendPort + '/decrypt', { encryptedText: encryptedText })
+        .then(response => {
+            let decryptedText = response.data;
+            if (!decryptedText) {
+                document.getElementById("outputBox").innerHTML = "Decryption failed. Please check input or key and try again.";
+                return
+            } else {
+                document.getElementById("outputBox").innerHTML = decryptedText;
+                document.getElementById("output-header").innerHTML = "Decrypted Text";
+            }
+            toggleCopyButton();
+            copyBtn.textContent = "Copy";
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 // Copy button toggle
@@ -83,5 +97,3 @@ decryptRadio.addEventListener("change", function () {
 
 // Initialize the submit button to encrypt by default
 submitButton.onclick = encryptMessage;
-
-
