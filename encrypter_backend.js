@@ -5,7 +5,7 @@ const CryptoJS = require("crypto-js");
 const cors = require('cors');
 
 // using environment variable
-const secret_key = process.env.wiki_encrypt_key
+const secret_key = process.env.YOUR_SECRET_KEY
 
 
 app.use(express.static('public'));
